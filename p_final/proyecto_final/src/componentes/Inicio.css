@@ -1,0 +1,14 @@
+/* src/componentes/Inicio.css */
+.inicio {
+  text-align: center; /* Centra el contenido */
+  padding: 20px; /* Espacio alrededor */
+}
+
+.inicio h1 {
+  font-size: 2rem; /* Tamaño del título */
+  color: #31afd4; /* Color personalizado */
+}
+
+.inicio p {
+  font-size: 1.2rem; /* Tamaño del texto */
+}

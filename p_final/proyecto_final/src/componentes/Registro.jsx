@@ -69,7 +69,7 @@ const Registro = ({ setUser, toggleLogin }) => {
           required
         />
       </div>
-      <button type="submit">Registrar</button>
+      <button type="submit">Registrar</button><br/>
       <button type="button" onClick={toggleLogin} style={{ marginLeft: '10px' }}>
         ¿Ya tienes cuenta? Inicia Sesión
       </button>

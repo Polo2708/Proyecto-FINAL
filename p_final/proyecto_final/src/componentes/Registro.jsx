@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Formulario.css';
 
-export function Registro({ setUser }) {
+const Registro = ({ setUser, toggleLogin }) => {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [contraseña, setContraseña] = useState('');
@@ -46,6 +46,7 @@ export function Registro({ setUser }) {
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
           placeholder="Ingresa tu nombre de usuario"
+          required
         />
       </div>
       <div className="form-group">
@@ -55,6 +56,7 @@ export function Registro({ setUser }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Ingresa tu email"
+          required
         />
       </div>
       <div className="form-group">
@@ -64,12 +66,16 @@ export function Registro({ setUser }) {
           value={contraseña}
           onChange={(e) => setContraseña(e.target.value)}
           placeholder="Ingresa tu contraseña"
+          required
         />
       </div>
       <button type="submit">Registrar</button>
+      <button type="button" onClick={toggleLogin} style={{ marginLeft: '10px' }}>
+        ¿Ya tienes cuenta? Inicia Sesión
+      </button>
       {error && <p className="error-message">{error}</p>}
     </form>
   );
-}
+};
 
 export default Registro;

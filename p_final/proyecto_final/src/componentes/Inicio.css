@@ -1,14 +1,28 @@
-/* src/componentes/Inicio.css */
-.inicio {
-  text-align: center; /* Centra el contenido */
-  padding: 20px; /* Espacio alrededor */
+/* Inicio.css */
+.inicio-container {
+  text-align: center;
+  padding: 50px;
 }
 
-.inicio h1 {
-  font-size: 2rem; /* Tamaño del título */
-  color: #31afd4; /* Color personalizado */
+.inicio-banner {
+  width: 100%;
+  height: 300px;
+  background-image: url('../Imagenes/banner.jpg');
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 30px;
 }
 
-.inicio p {
-  font-size: 1.2rem; /* Tamaño del texto */
+.inicio-boton {
+  padding: 15px 30px;
+  background-color: #ff5722;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.inicio-boton:hover {
+  background-color: #ff784e;
 }

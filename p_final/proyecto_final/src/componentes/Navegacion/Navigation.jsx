@@ -1,38 +1,55 @@
-// src/componentes/Navegacion/navigation.jsx
-import React from 'react';
-import { Navbar, Nav, Container, Dropdown } from 'react-bootstrap';
-import './navigation.css';
+import React, { useState } from 'react';
+import { Navbar, Nav, Container, Modal, Button } from 'react-bootstrap';
+import { FaUser } from 'react-icons/fa'; 
+import Login from '@/componentes/Login';
+import Registro from '@/componentes/Registro';
+import './Navigation.css';
 import logo from '../Imagenes/LOGO1.png';
 
-const Navigation = ({ toggleLogin, toggleRegistro }) => { // Recibe las funciones como props
-  return (
-    <Navbar className="navbar-custom" expand="lg">
-      <Container>
-        <Navbar.Brand href="/">
-          <img src={logo} alt="Fantasy Logo" className="logo-img" />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Inicio</Nav.Link>
-            <Nav.Link href="/productos">Productos</Nav.Link>
-            <Nav.Link href="/contacto">Contacto</Nav.Link>
-            <Nav.Link href="/acerca">Acerca</Nav.Link>
-          </Nav>
+const Navigation = ({ setUser }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
-          {/* Menú para iniciar sesión o registrarse */}
-          <Dropdown align="end">
-            <Dropdown.Toggle variant="light" id="dropdown-basic">
-              Iniciar Sesión
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={toggleLogin}>Iniciar Sesión</Dropdown.Item> {/* Llama a la función para mostrar el formulario */}
-              <Dropdown.Item onClick={toggleRegistro}>Registrarse</Dropdown.Item> {/* Llama a la función para mostrar el formulario de registro */}
-            </Dropdown.Menu>
-          </Dropdown>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+  const toggleForm = () => setIsLogin(!isLogin);
+
+  return (
+    <>
+      <Navbar className="navbar-custom" expand="lg">
+        <Container>
+          <Navbar.Brand href="/">
+            <img src={logo} alt="Fantasy Logo" className="logo-img" />
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="/">Inicio</Nav.Link>
+              <Nav.Link href="/productos">Productos</Nav.Link>
+              <Nav.Link href="/contacto">Contacto</Nav.Link>
+              <Nav.Link href="/acerca">Acerca</Nav.Link>
+            </Nav>
+
+            <button className="btn btn-light" onClick={handleShow}>
+              <FaUser />
+            </button>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{isLogin ? 'Iniciar Sesión' : 'Registrarse'}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {isLogin ? (
+            <Login setUser={setUser} toggleLogin={toggleForm} />
+          ) : (
+            <Registro setUser={setUser} toggleLogin={toggleForm} />
+          )}
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 

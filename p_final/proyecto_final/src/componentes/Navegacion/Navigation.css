@@ -1,81 +1,29 @@
-/* ==> Verde 4cee00  ==> Azul 31afd4 ==> Morado 46237a ==> Negro 000000 */
-
-/* Estilos para la barra de navegación */
 .navbar-custom {
-  background-color: #31afd4; /* Color de fondo personalizado */
-  padding: 2px 15px; /* Espacio en los bordes */
-  position: relative;
-  top: 0;
-  z-index: 2000; /* Asegura que la barra esté siempre visible */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+  background-color: #0193d6;
+  padding: 10px;
+  border-bottom: 2px solid #ff5722; /* Línea de separación */
 }
 
-/* Estilos para los enlaces de la barra de navegación */
 .navbar-custom .nav-link {
-  color: #ffff; /* Color de texto blanco */
-  font-size: 1.1rem; /* Tamaño de fuente más grande */
-  margin-right: 15px; /* Espacio entre los enlaces */
-  transition: color 0.3s ease; /* Efecto de transición al cambiar color */
+  color: white;
+  font-weight: bold;
+  margin-right: 15px;
 }
 
 .navbar-custom .nav-link:hover {
-  color: #4cee00; /* Color cuando se pasa el cursor por encima */
-  text-decoration: underline; /* Subrayado al hacer hover */
+  color: #ff5722; /* Cambio de color al pasar el mouse */
 }
 
-/* Estilo para la marca de la barra de navegación */
-.navbar-custom .navbar-brand {
-  color: #f8f9fa; /* Color para el nombre de la marca */
-  font-weight: bold; /* Hace que la marca sea negrita */
-  font-size: 1.3rem; /* Tamaño de fuente mayor */
-  display: flex;
-  align-items: center; /* Centrar verticalmente el logo y el texto */
-}
-
-/* Estilo del logo */
 .logo-img {
-  height: 80px;
-  width: auto; /* Ajusta automáticamente el ancho para mantener proporciones */
-  object-fit: contain;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añadir transición para un efecto visual suave */
+  width: 150px;
 }
 
-/* Efecto hover para que el logo destaque */
-.logo-img:hover {
-  transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el cursor */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Añade sombra al pasar el cursor */
+.btn-light {
+  background-color: #ff5722;
+  border: none;
+  color: white;
 }
 
-/* Estilo para el texto de la marca junto al logo */
-.brand-text {
-  color: #ffff; /* Color del texto de la marca */
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin-left: 10px; /* Espacio entre el logo y el texto */
-  vertical-align: middle; /* Alinea el texto verticalmente con el logo */
-}
-
-/* Estilos para el toggle (menu hamburguesa en dispositivos móviles) */
-.navbar-custom .navbar-toggler {
-  border-color: #f8f9fa; /* Color del borde del toggle */
-}
-
-/* Para pantallas pequeñas, asegúrate de que el colapso del menú tenga buen padding */
-.navbar-custom .navbar-collapse {
-  padding: 10px 0;
-}
-
-/* Estilos para el icono de menú en dispositivos móviles */
-.navbar-custom .navbar-toggler-icon {
-  background-color: rgba(255, 255, 255, 0.5); /* Icono de menú en color claro */
-}
-
-/* Estilos para el dropdown de Iniciar Sesión */
-.dropdown-menu {
-  background-color: #31afd4; /* Fondo azul del menú desplegable */
-  border-radius: 5px;
-}
-
-.dropdown-item {
-  color: #ffff; /* Color de texto blanco */
+.btn-light:hover {
+  background-color: #ff784e;
 }

@@ -1,25 +1,47 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 
 const Login = ({ setUser, toggleLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
 
-    // Lógica de validación del login
-    const userData = { email }; // Crear el objeto del usuario (puedes agregar más campos como nombre)
+    const userData = { email, contraseña: password };
 
-    // Guardar el usuario en localStorage para mantener la sesión
-    localStorage.setItem('user', JSON.stringify(userData));
+    try {
+      const response = await fetch('http://localhost:3001/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
 
-    // Establecer el usuario en el estado global
-    setUser(userData);
+      const data = await response.json();
+
+      if (response.ok) {
+        // Guardar el usuario en localStorage
+        localStorage.setItem('user', JSON.stringify({ email })); 
+        setUser({ email });
+      } else {
+        setError(data.message); // Mostrar mensaje de error
+      }
+    } catch (error) {
+      setError('Error al iniciar sesión. Por favor intenta de nuevo.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Form onSubmit={handleSubmit}>
+      {error && <Alert variant="danger">{error}</Alert>}
       <Form.Group controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>
         <Form.Control
@@ -42,8 +64,8 @@ const Login = ({ setUser, toggleLogin }) => {
         />
       </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Iniciar Sesión
+      <Button variant="primary" type="submit" disabled={loading}>
+        {loading ? 'Cargando...' : 'Iniciar Sesión'}
       </Button>
       <Button variant="link" onClick={toggleLogin} style={{ marginLeft: '10px' }}>
         ¿No tienes cuenta? Regístrate

@@ -2,6 +2,13 @@
   background-color: #0193d6;
   padding: 10px;
   border-bottom: 2px solid #ff5722; /* Línea de separación */
+  position: relative;
+}
+
+.logo-img:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
 }
 
 .navbar-custom .nav-link {
@@ -11,7 +18,7 @@
 }
 
 .navbar-custom .nav-link:hover {
-  color: #ff5722; /* Cambio de color al pasar el mouse */
+  background-color: #ff5722; /* Cambio de color al pasar el mouse */
 }
 
 .logo-img {

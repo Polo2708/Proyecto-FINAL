@@ -50,7 +50,7 @@ const Login = ({ setUser, toggleLogin }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-        />
+        /><br/>
       </Form.Group>
 
       <Form.Group controlId="formBasicPassword">
@@ -61,7 +61,7 @@ const Login = ({ setUser, toggleLogin }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-        />
+        /><br/>
       </Form.Group>
 
       <Button variant="primary" type="submit" disabled={loading}>

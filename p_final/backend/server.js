@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs"); // Para encriptar y comparar contraseñas
 const jwt = require("jsonwebtoken"); // Para generar tokens JWT
 const multer = require("multer"); // Para manejar la carga de archivos
 const path = require("path"); // Para manejar rutas de archivos
+const { error } = require("console");
 
 const app = express();
 app.use(cors());
@@ -43,14 +44,37 @@ db.connect((err) => {
   console.log("Conectado a la base de datos MySQL sports_store");
 });
 
-// Ruta para obtener productos (ejemplo estático)
-app.get('/Products', (req, res) => {
-  const products = [
-    { id: 1, nombre: 'Camiseta', precio: 20, imagen: '' },
-    { id: 2, nombre: 'Zapatos', precio: 50, imagen: '' },
-  ];
+//Serviir las imagenes desde el directorio 'uploads'
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-  res.json(products);
+// Ruta para obtener productos (ejemplo estático)
+app.get('/api/productos',(req, res) => {
+  const sql = 'SELECT * FROM productos';
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message});
+    res.status(200).json(results);
+  });
+});
+
+//Ruta para actualizar un producto
+app.put('/api/productos/:id', (req, res) => {
+  const { id } = req.params;
+  const { nombre, precio, descripcion } = req.body;
+  const sql = 'UPDATE productos SET nombre = ?, precio = ?, descripcion = ? WHERE id = ?';
+  db.query(sql,[nombre, precio, descripcion,id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json({ message: "Producto actualizado correctamente"});
+  });
+});
+
+//Ruta para eliminar un producto
+app.delete('/api/productos/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'DELETE FROM productos WHERE id = ?';
+  db.query(sql, [id], (err) => {
+    if (err) return res.status(500).json({ error: err.message});
+    res.status(200).json({ message: "Producto eliminado correctamente" });
+  });
 });
 
 // Ruta de registro de usuarios
@@ -118,16 +142,28 @@ app.post("/login", async (req, res) => {
 });
 
 // Ruta para agregar productos
-app.post('/api/productos', upload.single('imagen'), (req, res) => {
-  const { nombre, precio, descripcion } = req.body;
-  const imagen = req.file ? req.file.filename : null;
+app.post('/api/productos', upload.array('images', 4), (req, res) => {
+  console.log(req.body); // Verifica que los datos del formulario se están enviando correctamente
+  console.log(req.files); // Verifica que las imágenes se están subiendo correctamente
 
-  const sql = 'INSERT INTO productos (nombre, precio, descripcion, imagen) VALUES (?, ?, ?, ?)';
-  db.query(sql, [nombre, precio, descripcion, imagen], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.status(201).json({ id: result.insertId, nombre, precio, descripcion, imagen });
+  const { nombre, precio, descripcion, categoria, stock, marca } = req.body;
+  
+  // Obtener los nombres de los archivos de imagen
+  const imagenes = req.files ? req.files.map(file => file.filename) : []; // Array de nombres de archivos
+
+  const sql = 'INSERT INTO productos (nombre, precio, descripcion, categoria, stock, marca, imagenes) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  
+  db.query(sql, [nombre, precio, descripcion, categoria, stock, marca, JSON.stringify(imagenes)], (err, result) => {
+    if (err) {
+      console.error('Error al agregar el producto:', err); // Log detallado
+      return res.status(500).json({ error: 'Error al agregar el producto', details: err.message });
+    }
+    res.status(201).json({ id: result.insertId, nombre, precio, descripcion, categoria, stock, marca, imagenes });
   });
 });
+
+
+
 
 // Inicia el servidor
 app.listen(3001, () => {

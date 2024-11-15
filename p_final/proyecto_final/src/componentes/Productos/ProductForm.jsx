@@ -6,7 +6,7 @@ const ProductForm = ({ onAddProduct, onUpdateProduct, editing, currentProduct })
     name: '', 
     price: '', 
     descripcion: '', 
-    images: [], // Cambiado a un array de imágenes
+    images: [],
     category: '', 
     stock: '',    
     brand: ''
@@ -18,7 +18,7 @@ const ProductForm = ({ onAddProduct, onUpdateProduct, editing, currentProduct })
         name: currentProduct.nombre,
         price: currentProduct.precio,
         descripcion: currentProduct.descripcion,
-        images: currentProduct.imagenes || [],  // Asegúrate de que las imágenes se pasen correctamente
+        images: currentProduct.imagenes || [], 
         category: currentProduct.categoria,
         stock: currentProduct.stock,
         brand: currentProduct.marca

@@ -1,6 +1,6 @@
 import React from 'react';
 import './ProductStyle.css';
-import 'font-awesome/css/font-awesome.min.css';  // Aquí importas Font Awesome
+import 'font-awesome/css/font-awesome.min.css';
 
 const ProductListForCustomer = ({ products, onAddToCart }) => {
   return (

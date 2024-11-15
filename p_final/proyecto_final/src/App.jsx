@@ -9,7 +9,7 @@ import Productos from './componentes/Productos';
 import Cart from './componentes/Productos/Cart';
 import { fetchProducts } from './componentes/Productos/api';
 import ProductListForCustomer from './componentes/Productos/ProductListForCustomer';
-import Login from './componentes/Login'; 
+import Login from './componentes/Login/Login'; 
 
 function App() {
   const [user, setUser] = useState(null);
@@ -30,6 +30,14 @@ function App() {
     loadProducts();
   }, []);
 
+  // Cargar el usuario almacenado en el localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   // Alternar el estado del modal
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -40,15 +48,11 @@ function App() {
     setCart((prevCart) => {
       const existingProduct = prevCart.find(item => item.id === product.id);
       if (existingProduct) {
-        const updatedCart = prevCart.map(item => 
+        return prevCart.map(item => 
           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
-        console.log("Carrito actualizado después de agregar:", updatedCart);
-        return updatedCart;
       } else {
-        const newCart = [...prevCart, { ...product, quantity: 1 }];
-        console.log("Carrito actualizado después de agregar:", newCart);
-        return newCart;
+        return [...prevCart, { ...product, quantity: 1 }];
       }
     });
   };
@@ -56,36 +60,17 @@ function App() {
   // Eliminar producto del carrito de compras
   const removeFromCart = (productId) => {
     console.log("Intentando eliminar el producto con ID:", productId);
-    setCart((prevCart) => {
-      const updatedCart = prevCart.filter(item => item.id !== productId);
-      console.log("Carrito actualizado después de la eliminación:", updatedCart);
-      return updatedCart;
-    });
+    setCart(prevCart => prevCart.filter(item => item.id !== productId));
   };
 
   // Limpiar carrito
-  const clearCart = () => {
-    setCart([]);
-  };
+  const clearCart = () => setCart([]);
 
   // Mostrar u ocultar el carrito
-  const handleShowCart = () => {
-    setShowCart(!showCart);
-  };
-
-  // Cargar el usuario almacenado en el localStorage
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+  const handleShowCart = () => setShowCart(!showCart);
 
   // Alternar el formulario de login
   const toggleLoginForm = () => setShowLogin(!showLogin);
-
-  // Alternar el CRUD
-  const toggleCrud = () => setShowCrud(!showCrud);
 
   // Cerrar sesión
   const handleLogout = () => {
@@ -101,11 +86,14 @@ function App() {
           handleLogout={handleLogout} 
           setUser={setUser} 
           toggleLogin={toggleLoginForm} 
-          toggleCrud={toggleCrud} 
+          toggleCrud={() => setShowCrud(!showCrud)} 
           cartItems={cart}
           onShowCart={handleShowCart} 
         />
-
+        
+        {/* Si el usuario no está autenticado, muestra la pantalla de inicio */}
+        {!user ? <Inicio user={user} /> : <p>Hola, {user.email}!</p>}
+          
         {/* Modal para mostrar la lista de productos y el CRUD */}
         <Modal show={showCrud} onHide={() => setShowCrud(false)} size="lg">
           <Modal.Header closeButton>
@@ -134,16 +122,7 @@ function App() {
         )}
 
         {/* Mostrar formulario de login si showLogin es verdadero */}
-        {showLogin && <Login setUser={setUser} />}
-
-        {/* Si el usuario no está autenticado, muestra la pantalla de inicio */}
-        {!user ? (
-          <Inicio user={user} />
-        ) : (
-          <>
-            <p>Bienvenido, {user.email}!</p>
-          </>
-        )}
+        {showLogin && <Login setUser={setUser} />}          
         
         <Footer />
       </div>

@@ -1,7 +1,6 @@
 import React from 'react';
-import './Cart.css'; // Estilos
+import './Cart.css'; 
 
-// Componente Cart
 const Cart = ({ cartItems = [], onRemoveFromCart, onClearCart }) => {
     console.log("Estado actual del carrito en Cart:", cartItems);
   

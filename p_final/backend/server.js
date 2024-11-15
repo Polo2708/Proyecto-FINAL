@@ -6,7 +6,6 @@ const bcrypt = require("bcryptjs"); // Para encriptar y comparar contraseñas
 const jwt = require("jsonwebtoken"); // Para generar tokens JWT
 const multer = require("multer"); // Para manejar la carga de archivos
 const path = require("path"); // Para manejar rutas de archivos
-const { error } = require("console");
 
 const app = express();
 app.use(cors());
@@ -44,35 +43,35 @@ db.connect((err) => {
   console.log("Conectado a la base de datos MySQL sports_store");
 });
 
-//Serviir las imagenes desde el directorio 'uploads'
+// Servir las imágenes desde el directorio 'uploads'
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Ruta para obtener productos (ejemplo estático)
-app.get('/api/productos',(req, res) => {
+app.get('/api/productos', (req, res) => {
   const sql = 'SELECT * FROM productos';
   db.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ error: err.message});
+    if (err) return res.status(500).json({ error: err.message });
     res.status(200).json(results);
   });
 });
 
-//Ruta para actualizar un producto
+// Ruta para actualizar un producto
 app.put('/api/productos/:id', (req, res) => {
   const { id } = req.params;
   const { nombre, precio, descripcion } = req.body;
   const sql = 'UPDATE productos SET nombre = ?, precio = ?, descripcion = ? WHERE id = ?';
-  db.query(sql,[nombre, precio, descripcion,id], (err) => {
+  db.query(sql, [nombre, precio, descripcion, id], (err) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.status(200).json({ message: "Producto actualizado correctamente"});
+    res.status(200).json({ message: "Producto actualizado correctamente" });
   });
 });
 
-//Ruta para eliminar un producto
+// Ruta para eliminar un producto
 app.delete('/api/productos/:id', (req, res) => {
   const { id } = req.params;
   const sql = 'DELETE FROM productos WHERE id = ?';
   db.query(sql, [id], (err) => {
-    if (err) return res.status(500).json({ error: err.message});
+    if (err) return res.status(500).json({ error: err.message });
     res.status(200).json({ message: "Producto eliminado correctamente" });
   });
 });
@@ -110,7 +109,7 @@ app.post("/register", async (req, res) => {
   });
 });
 
-// Ruta de inicio de sesión
+// Ruta de inicio de sesión (Login con JWT)
 app.post("/login", async (req, res) => {
   const { email, contraseña } = req.body;
 
@@ -162,8 +161,21 @@ app.post('/api/productos', upload.array('images', 4), (req, res) => {
   });
 });
 
-
-
+// Middleware para verificar JWT en rutas protegidas
+const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization'];
+  if (!token) {
+    return res.status(403).json({ message: 'Token no proporcionado' });
+  }
+  
+  jwt.verify(token, jwtSecret, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: 'Token no válido' });
+    }
+    req.user = decoded;
+    next();
+  });
+};
 
 // Inicia el servidor
 app.listen(3001, () => {

@@ -1,13 +1,12 @@
-/* Variables para colores y otros estilos comunes */
 :root {
-  --primary-color: #00bcd4; /* Azul cielo */
-  --primary-color-dark: #008c9e; /* Azul más oscuro */
-  --secondary-color: #ff5722; /* Naranja vibrante */
-  --accent-color: #ffeb3b; /* Amarillo suave para acentos */
-  --background-color-light: #ffffff; /* Fondo blanco cálido */
-  --background-color-dark: #263238; /* Fondo oscuro para detalles */
-  --text-color-dark: #212121; /* Texto oscuro */
-  --text-color-light: #757575; /* Gris claro para texto menos destacado */
+  --primary-color: #00bcd4;
+  --primary-color-dark: #008c9e;
+  --secondary-color: #ff5722; 
+  --accent-color: #ffeb3b;
+  --background-color-light: #ffffff;
+  --background-color-dark: #263238; 
+  --text-color-dark: #212121; 
+  --text-color-light: #757575; 
   --border-color-light: #e0e0e0;
   --font-size-base: 1rem;
   --font-size-lg: 1.15rem;
@@ -107,7 +106,7 @@
 
 .navbar-custom .nav-link:hover {
   color: var(--secondary-color);
-  background-color: rgba(255, 87, 34, 0.1); /* Naranja suave */
+  background-color: rgba(255, 87, 34, 0.1); 
 }
 
 .navbar-custom .btn-primary {
@@ -157,7 +156,7 @@
 
 .product-card .product-price {
   font-size: 1.2rem;
-  color: var(--secondary-color); /* Naranja para los precios */
+  color: var(--secondary-color); 
   font-weight: bold;
 }
 

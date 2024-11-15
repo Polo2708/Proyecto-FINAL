@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Login } from './Login';
-import { Registro } from './Registro';
+import { Login } from './Login/Login';
+import { Registro } from './Login/Registro';
 import './Auth.css';
 
 const Auth = ({ setUser, closeModal }) => {
